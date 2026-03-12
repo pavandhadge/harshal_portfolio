@@ -5,8 +5,10 @@ const {
   title = "CA Articleship Portfolio | Your Name",
   description =
     "CA Inter qualified candidate seeking articleship. Strong fundamentals in Accounting, Taxation, Audit, and Company Law.",
-  canonical = "https://example.com/"
+  canonical
 } = Astro.props;
+
+const resolvedCanonical = canonical ?? Astro.url?.href;
 ---
 
 <!doctype html>
@@ -20,7 +22,7 @@ const {
 
     <title>{title}</title>
     <meta name="description" content={description} />
-    <link rel="canonical" href={canonical} />
+    {resolvedCanonical ? <link rel="canonical" href={resolvedCanonical} /> : null}
     <meta name="robots" content="index,follow" />
     <meta name="theme-color" content="#1e2b33" />
 

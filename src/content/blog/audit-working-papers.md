@@ -1,4 +1,5 @@
 ---
+slug: "audit-working-papers"
 title: "How I Build Audit Working Papers"
 date: "2025-12-22"
 summary: "A clear, step-by-step structure for documentation and review readiness."

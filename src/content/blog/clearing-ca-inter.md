@@ -1,4 +1,5 @@
 ---
+slug: "clearing-ca-inter"
 title: "What I Learned Clearing CA Inter"
 date: "2026-02-10"
 summary: "A concise reflection on study strategy, revision cycles, and what actually made a difference during CA Inter prep."

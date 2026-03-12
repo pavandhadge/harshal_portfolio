@@ -1,15 +1,15 @@
-@import url("https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap");
 @import "tailwindcss";
 
 :root {
   --ink: #0f1720;
   --muted: #5a6672;
-  --paper: #eef2f6;
-  --accent: #d2772c;
-  --accent-deep: #a35317;
-  --accent-blue: #2b5f87;
+  --paper: #eceff3;
+  --accent: #d06a1e;
+  --accent-deep: #9a4b0f;
+  --accent-blue: #24557f;
   --steel: #0f1c26;
-  --line: #d4dbe3;
+  --line: #cbd4de;
   --card: #ffffff;
 }
 
@@ -19,11 +19,13 @@
   }
 
   body {
-    font-family: "DM Sans", system-ui, -apple-system, sans-serif;
+    font-family: "Figtree", system-ui, -apple-system, sans-serif;
     background: var(--paper);
     color: var(--ink);
     min-height: 100vh;
     font-weight: 400;
+    font-size: 1.05rem;
+    line-height: 1.75;
   }
 
   h1,
@@ -34,6 +36,7 @@
     letter-spacing: -0.02em;
     font-weight: 600;
   }
+
 
   a {
     text-underline-offset: 3px;
@@ -54,9 +57,13 @@
     color: var(--muted);
   }
 
-  .text-accent {
-    color: var(--accent);
-  }
+.text-accent {
+  color: var(--accent);
+}
+
+.text-accent-strong {
+  color: var(--accent);
+}
 
   .bg-paper {
     background-color: var(--paper);
@@ -97,12 +104,12 @@
 }
 
 .bg-orb {
-  animation: drift 16s ease-in-out infinite;
+  animation: drift 10s ease-in-out infinite;
 }
 
 .bg-orb-delayed {
-  animation: drift 18s ease-in-out infinite;
-  animation-delay: -6s;
+  animation: drift 12s ease-in-out infinite;
+  animation-delay: -5s;
 }
 }
 
@@ -131,10 +138,10 @@
 @keyframes drift {
   0%,
   100% {
-    transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0) scale(1);
   }
   50% {
-    transform: translate3d(12px, -10px, 0);
+    transform: translate3d(28px, -24px, 0) scale(1.08);
   }
 }
 
@@ -149,7 +156,7 @@
 }
 
 .blog-content {
-  font-size: 1rem;
+  font-size: 1.05rem;
   line-height: 1.75;
   color: var(--ink);
 }

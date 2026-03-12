@@ -1,0 +1,141 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import "../../styles/global.css";
+
+const modules = import.meta.glob("/src/content/blog/*.md", { eager: true });
+const posts = Object.values(modules)
+  .map((mod) => {
+    const entry = mod;
+    return {
+      slug: entry.frontmatter?.slug,
+      data: entry.frontmatter
+    };
+  })
+  .filter((post) => post.slug && post.data)
+  .sort((a, b) => new Date(b.data.date).valueOf() - new Date(a.data.date).valueOf());
+
+const seo = {
+  title: "Blog | CA Articleship Portfolio",
+  description: "Thoughts, opinions, interpretations, and notes from my CA journey."
+};
+---
+
+<Layout title={seo.title} description={seo.description}>
+  <header class="sticky top-0 z-50 border-b-2 border-[var(--line)] bg-[rgba(226,231,238,0.9)] backdrop-blur-xl">
+    <div class="mx-auto flex w-full max-w-5xl items-center justify-between px-6 py-6">
+      <div class="text-sm uppercase tracking-[0.36em] text-muted">Articleship Portfolio</div>
+      <nav class="hidden items-center gap-7 text-base text-muted md:flex">
+        <a href="/" class="hover:text-ink">Home</a>
+        <a href="/#about" class="hover:text-ink">About</a>
+        <a href="/#skills" class="hover:text-ink">Skills</a>
+        <a href="/#education" class="hover:text-ink">Education</a>
+        <a href="/#contact" class="hover:text-ink">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <div class="relative overflow-hidden">
+    <div
+      class="pointer-events-none absolute -top-40 right-0 h-[28rem] w-[28rem] rounded-full bg-[radial-gradient(circle_at_center,rgba(208,106,30,0.38),transparent_70%)] blur-3xl bg-orb"
+      aria-hidden="true"
+    ></div>
+    <div
+      class="pointer-events-none absolute bottom-0 left-0 h-[32rem] w-[32rem] rounded-full bg-[radial-gradient(circle_at_center,rgba(36,85,127,0.3),transparent_70%)] blur-3xl bg-orb-delayed"
+      aria-hidden="true"
+    ></div>
+
+    <main class="mx-auto w-full max-w-5xl px-6 pb-20 pt-12 min-h-screen">
+    <div class="flex flex-wrap items-end justify-between gap-6">
+      <div>
+        <p class="text-xs uppercase tracking-[0.32em] text-muted">Reflections</p>
+        <h1 class="mt-3 text-4xl font-semibold">Thoughts, Opinions & Notes</h1>
+        <p class="mt-3 max-w-2xl text-sm text-muted">
+          Reflections, interpretations, and practical notes from my CA journey.
+        </p>
+      </div>
+    </div>
+
+      <div class="mt-10 grid gap-6" id="blog-list" data-total={posts.length}>
+        {posts.map((post, index) => (
+          <article
+            class="rounded-2xl border border-line bg-card p-7 shadow-soft"
+            key={post.slug}
+            data-index={index + 1}
+          >
+            <div class="flex flex-wrap items-center justify-between gap-4">
+              <p class="text-xs uppercase tracking-[0.26em] text-muted">{post.data.tag}</p>
+              <p class="text-xs uppercase tracking-[0.26em] text-muted">
+                {new Date(post.data.date).toLocaleDateString("en-US", { year: "numeric", month: "short", day: "2-digit" })}
+              </p>
+            </div>
+            <h2 class="mt-3 text-2xl font-semibold text-ink">
+              <a href={`/blog/${post.slug}`} class="hover:text-[var(--accent)]">
+                {post.data.title}
+              </a>
+            </h2>
+            <p class="mt-3 text-sm text-muted">{post.data.summary}</p>
+          </article>
+        ))}
+      </div>
+
+      <nav class="mt-12 flex flex-wrap items-center justify-between gap-4 text-xs uppercase tracking-[0.26em] text-muted">
+        <a id="prev-link" class="border border-line px-4 py-2 text-ink" href="#"></a>
+        <span id="page-range"></span>
+        <a id="next-link" class="border border-line px-4 py-2 text-ink" href="#"></a>
+      </nav>
+    </main>
+  </div>
+</Layout>
+
+<script>
+  const pageSize = 10;
+  const params = new URLSearchParams(window.location.search);
+  const start = Math.max(1, Number(params.get("start") || "1"));
+  const end = Math.max(start, Number(params.get("end") || String(start + pageSize - 1)));
+
+  const list = document.getElementById("blog-list");
+  const items = Array.from(list?.querySelectorAll("article[data-index]") || []);
+  const total = Number(list?.dataset.total || items.length);
+
+  items.forEach((item) => {
+    const index = Number(item.getAttribute("data-index"));
+    item.style.display = index >= start && index <= end ? "" : "none";
+  });
+
+  const prevStart = Math.max(1, start - pageSize);
+  const prevEnd = prevStart + pageSize - 1;
+  const nextStart = start + pageSize;
+  const nextEnd = Math.min(total, nextStart + pageSize - 1);
+
+  const prevLink = document.getElementById("prev-link");
+  const nextLink = document.getElementById("next-link");
+  const range = document.getElementById("page-range");
+
+  if (prevLink) {
+    if (start > 1) {
+      prevLink.href = `/blog?start=${prevStart}&end=${prevEnd}`;
+      prevLink.textContent = "Previous";
+      prevLink.classList.remove("pointer-events-none", "opacity-40");
+    } else {
+      prevLink.href = "#";
+      prevLink.textContent = "Previous";
+      prevLink.classList.add("pointer-events-none", "opacity-40");
+    }
+  }
+
+  if (nextLink) {
+    if (end < total) {
+      nextLink.href = `/blog?start=${nextStart}&end=${nextEnd}`;
+      nextLink.textContent = "Next";
+      nextLink.classList.remove("pointer-events-none", "opacity-40");
+    } else {
+      nextLink.href = "#";
+      nextLink.textContent = "Next";
+      nextLink.classList.add("pointer-events-none", "opacity-40");
+    }
+  }
+
+  if (range) {
+    range.textContent = `Showing ${start}-${Math.min(end, total)} of ${total}`;
+  }
+</script>

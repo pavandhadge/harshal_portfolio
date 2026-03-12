@@ -1,4 +1,5 @@
 ---
+slug: "gst-compliance-checklist"
 title: "GST Compliance Checklist for Small Businesses"
 date: "2026-01-18"
 summary: "A practical checklist I follow while preparing GST returns and reconciliations."
