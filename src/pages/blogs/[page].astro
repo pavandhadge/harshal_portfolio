@@ -3,14 +3,24 @@ import Layout from "../../layouts/Layout.astro";
 import { getCollection } from "astro:content";
 
 const PAGE_SIZE = 10;
+
 const allPosts = await getCollection("blog");
 const posts = allPosts.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
-const currentPage = 1;
+
+export function getStaticPaths() {
+  const totalPages = Math.max(1, Math.ceil(posts.length / PAGE_SIZE));
+  return Array.from({ length: totalPages }, (_, index) => ({
+    params: { page: String(index + 1) }
+  }));
+}
+
+const currentPage = Number(Astro.params.page ?? "1");
 const totalPages = Math.max(1, Math.ceil(posts.length / PAGE_SIZE));
-const pagePosts = posts.slice(0, PAGE_SIZE);
+const start = (currentPage - 1) * PAGE_SIZE;
+const pagePosts = posts.slice(start, start + PAGE_SIZE);
 
 const seo = {
-  title: "Blogs | CA Articleship Portfolio",
+  title: `Blogs | Page ${currentPage} | CA Articleship Portfolio`,
   description: "Short notes on audit, GST, compliance, and articleship preparation."
 };
 ---

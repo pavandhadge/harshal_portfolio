@@ -1,6 +1,6 @@
 ---
 import Layout from "../layouts/Layout.astro";
-
+import "../styles/global.css"
 const profile = {
   name: "Your Name",
   title: "CA Inter Qualified | Articleship Candidate",
@@ -263,8 +263,7 @@ const jsonLd = {
                   <span class="absolute left-1/2 top-0 h-full w-px -translate-x-1/2 bg-[var(--line)]"></span>
                   <span class="relative z-10 h-3 w-3 rounded-full border-2 border-[var(--accent)] bg-[var(--paper)]"></span>
                 </div>
-                <div class="relative rounded-2xl border border-line bg-card p-6 shadow-soft">
-                  <span class="absolute -left-2 top-6 h-3 w-3 rotate-45 border-l border-t border-line bg-card"></span>
+                <div class="rounded-2xl border border-line bg-card p-6 shadow-soft">
                   <p class="text-xs uppercase tracking-[0.26em] text-muted">Qualification</p>
                   <h3 class="mt-2 text-xl font-semibold text-ink">{item.title}</h3>
                   <p class="mt-1 text-sm text-muted">{item.subtitle}</p>
@@ -283,25 +282,21 @@ const jsonLd = {
           <p class="mt-4 text-sm text-muted">
             Focused courses that support audit readiness, compliance, and client communication.
           </p>
-          <div class="mt-8 grid gap-4 sm:grid-cols-2">
+          <div class="mt-8 space-y-3">
             {profile.certifications.map((item) => (
-              <a
-                href={item.url}
-                class="group border border-line bg-card p-5 transition hover:border-[var(--accent)]"
+              <div
+                class="flex flex-wrap items-center justify-between gap-3 border-b border-line/70 pb-3 text-sm text-muted"
                 key={item.name}
               >
-                <div class="flex items-start justify-between gap-4">
-                  <div>
-                    <p class="text-xs uppercase tracking-[0.26em] text-muted">Certificate</p>
-                    <h3 class="mt-2 text-base font-semibold text-ink">{item.name}</h3>
-                  </div>
-                  <span class="text-xs uppercase tracking-[0.26em] text-muted">{item.date}</span>
+                <div class="flex items-center gap-3">
+                  <span class="h-1.5 w-1.5 rounded-full bg-[var(--accent)]"></span>
+                  <a href={item.url} class="group font-semibold text-ink">
+                    {item.name}
+                    <span class="ml-2 inline-block text-xs transition group-hover:-translate-y-0.5 group-hover:translate-x-0.5">↗</span>
+                  </a>
                 </div>
-                <div class="mt-4 flex items-center gap-2 text-xs uppercase tracking-[0.24em] text-muted">
-                  View Certificate
-                  <span class="transition group-hover:translate-x-1">→</span>
-                </div>
-              </a>
+                <div class="text-xs uppercase tracking-[0.26em] text-muted">{item.date}</div>
+              </div>
             ))}
           </div>
         </div>

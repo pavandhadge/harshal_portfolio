@@ -125,3 +125,26 @@
     scroll-behavior: auto !important;
   }
 }
+
+.blog-content {
+  font-size: 1rem;
+  line-height: 1.75;
+  color: var(--ink);
+}
+
+.blog-content p {
+  margin-top: 1rem;
+}
+
+.blog-content h2,
+.blog-content h3 {
+  margin-top: 2rem;
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.blog-content ul {
+  margin-top: 1rem;
+  padding-left: 1.2rem;
+  list-style: disc;
+}
