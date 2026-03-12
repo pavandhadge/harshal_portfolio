@@ -33,10 +33,26 @@ const profile = {
     }
   ],
   certifications: [
-    "MS Excel for Finance (Advanced)",
-    "GST Practitioner Workshop",
-    "Tally Prime Fundamentals",
-    "Communication Skills for Client Work"
+    {
+      name: "MS Excel for Finance (Advanced)",
+      date: "Jan 2024",
+      url: "/certificates/excel-finance"
+    },
+    {
+      name: "GST Practitioner Workshop",
+      date: "Aug 2023",
+      url: "/certificates/gst-workshop"
+    },
+    {
+      name: "Tally Prime Fundamentals",
+      date: "Jun 2023",
+      url: "/certificates/tally-prime"
+    },
+    {
+      name: "Communication Skills for Client Work",
+      date: "Nov 2022",
+      url: "/certificates/communication-skills"
+    }
   ],
   languages: ["English", "Hindi", "Marathi"],
   generalSkills: [
@@ -53,6 +69,17 @@ const seo = {
   description:
     "CA Inter qualified candidate seeking articleship. Fundamentals in accounting, audit, taxation, and corporate law."
 };
+
+const skillGroups = [
+  {
+    title: "Technical Competencies",
+    items: profile.strengths
+  },
+  {
+    title: "Articleship Readiness",
+    items: profile.generalSkills
+  }
+];
 
 const jsonLd = {
   "@context": "https://schema.org",
@@ -77,19 +104,16 @@ const jsonLd = {
 
   <div class="relative overflow-hidden">
     <div
-      class="pointer-events-none absolute -top-32 right-0 h-96 w-96 rounded-full bg-[radial-gradient(circle_at_center,rgba(196,139,63,0.35),transparent_70%)] blur-3xl"
+      class="pointer-events-none absolute -top-40 right-0 h-[26rem] w-[26rem] rounded-full bg-[radial-gradient(circle_at_center,rgba(196,139,63,0.28),transparent_70%)] blur-3xl"
       aria-hidden="true"
     ></div>
     <div
-      class="pointer-events-none absolute bottom-0 left-0 h-[32rem] w-[32rem] rounded-full bg-[radial-gradient(circle_at_center,rgba(31,45,58,0.25),transparent_70%)] blur-3xl"
+      class="pointer-events-none absolute bottom-0 left-0 h-[28rem] w-[28rem] rounded-full bg-[radial-gradient(circle_at_center,rgba(31,45,58,0.2),transparent_70%)] blur-3xl"
       aria-hidden="true"
     ></div>
 
-    <header class="mx-auto flex w-full max-w-6xl items-center justify-between px-6 pb-6 pt-10">
-      <div class="flex items-center gap-3 text-xs uppercase tracking-[0.36em] text-muted">
-        <span class="h-2 w-2 rounded-full bg-[var(--accent)]"></span>
-        Articleship Portfolio
-      </div>
+    <header class="mx-auto flex w-full max-w-5xl items-center justify-between px-6 pb-10 pt-10">
+      <div class="text-xs uppercase tracking-[0.36em] text-muted">Articleship Portfolio</div>
       <nav class="hidden items-center gap-6 text-sm text-muted md:flex">
         <a href="#about" class="hover:text-ink">About</a>
         <a href="#skills" class="hover:text-ink">Skills</a>
@@ -99,31 +123,29 @@ const jsonLd = {
       </nav>
     </header>
 
-    <main class="mx-auto w-full max-w-6xl px-6 pb-20">
-      <section class="grid items-center gap-10 lg:grid-cols-[1.2fr_0.8fr]">
-        <div class="space-y-6">
-          <p class="inline-flex items-center gap-2 rounded-full border border-line bg-card px-4 py-2 text-xs uppercase tracking-[0.32em] text-muted shadow-soft">
-            CA Inter Qualified
-          </p>
+    <main class="mx-auto w-full max-w-5xl px-6 pb-24">
+      <section class="grid items-start gap-12 lg:grid-cols-[1.3fr_0.7fr]">
+        <div class="space-y-7">
+          <p class="text-xs uppercase tracking-[0.4em] text-muted">CA Inter Qualified</p>
           <div class="space-y-4">
             <h1 class="text-balance text-4xl font-semibold leading-tight text-ink sm:text-5xl lg:text-6xl animate-fade-up">
               {profile.name}
             </h1>
             <p class="text-balance text-lg text-muted sm:text-xl animate-fade-up-delay">
-              {profile.title} based in {profile.location}. I am actively seeking a CA articleship role focused on
-              structured learning, client exposure, and precise financial execution.
+              {profile.title} based in {profile.location}. Seeking a CA articleship role focused on disciplined learning,
+              client exposure, and precise financial execution.
             </p>
           </div>
           <div class="flex flex-wrap gap-4 animate-fade-up-delay-lg">
             <a
               href={`mailto:${profile.contactEmail}`}
-              class="rounded-full bg-[var(--steel)] px-6 py-3 text-sm font-semibold uppercase tracking-[0.18em] text-white transition hover:bg-[var(--accent-deep)]"
+              class="rounded-full bg-[var(--steel)] px-6 py-3 text-xs font-semibold uppercase tracking-[0.22em] text-white transition hover:bg-[var(--accent-deep)]"
             >
               Email Me
             </a>
             <a
               href={profile.resumeUrl}
-              class="rounded-full border border-line px-6 py-3 text-sm font-semibold uppercase tracking-[0.18em] text-ink transition hover:border-[var(--accent)] hover:text-[var(--accent)]"
+              class="rounded-full border border-line px-6 py-3 text-xs font-semibold uppercase tracking-[0.22em] text-ink transition hover:border-[var(--accent)] hover:text-[var(--accent)]"
               download
             >
               Download Resume
@@ -131,183 +153,166 @@ const jsonLd = {
           </div>
         </div>
 
-        <div class="space-y-6">
-          <div class="rounded-3xl border border-line bg-card p-6 shadow-soft animate-reveal">
-            <div class="flex items-start justify-between">
-              <div>
-                <p class="text-xs uppercase tracking-[0.26em] text-muted">Availability</p>
-                <p class="mt-2 text-2xl font-semibold">{profile.availability}</p>
-              </div>
-              <div class="h-12 w-12 rounded-2xl bg-[var(--accent)]/15"></div>
-            </div>
-            <p class="mt-4 text-sm text-muted">
-              Available for audit, taxation, and compliance-focused assignments with mentoring support and exposure to
-              real client work.
+        <div class="space-y-6 rounded-3xl border border-line bg-card p-7 shadow-soft">
+          <div>
+            <p class="text-xs uppercase tracking-[0.26em] text-muted">Availability</p>
+            <p class="mt-2 text-2xl font-semibold text-ink">{profile.availability}</p>
+            <p class="mt-2 text-sm text-muted">
+              Ready to join a firm that values structure, accountability, and clean documentation.
             </p>
           </div>
+          <div class="border-t border-line pt-5">
+            <p class="text-xs uppercase tracking-[0.26em] text-muted">Contact</p>
+            <p class="mt-2 text-sm text-ink">{profile.contactEmail}</p>
+            <p class="text-sm text-muted">{profile.contactPhone}</p>
+          </div>
+          <div class="border-t border-line pt-5">
+            <p class="text-xs uppercase tracking-[0.26em] text-muted">LinkedIn</p>
+            <a href={profile.linkedIn} class="mt-2 inline-block text-sm text-ink underline">
+              View Profile
+            </a>
+          </div>
+        </div>
+      </section>
 
-          <div class="grid gap-4 sm:grid-cols-2">
-            <div class="rounded-2xl border border-line bg-card p-5">
-              <p class="text-xs uppercase tracking-[0.26em] text-muted">Core Strength</p>
-              <p class="mt-3 text-lg font-semibold">Accounting & Finalization</p>
+      <section id="about" class="mt-20 border-t border-line pt-12">
+        <div class="grid gap-10 lg:grid-cols-[1.2fr_0.8fr]">
+          <div>
+            <p class="text-xs uppercase tracking-[0.32em] text-muted">Profile</p>
+            <h2 class="mt-3 text-3xl font-semibold">Summary</h2>
+            <p class="mt-4 text-base text-muted">{profile.summary}</p>
+            <div class="mt-6 grid gap-4 sm:grid-cols-2">
+              <div class="rounded-2xl border border-line p-4">
+                <p class="text-xs uppercase tracking-[0.26em] text-muted">Location</p>
+                <p class="mt-2 text-sm font-semibold text-ink">{profile.location}</p>
+              </div>
+              <div class="rounded-2xl border border-line p-4">
+                <p class="text-xs uppercase tracking-[0.26em] text-muted">Contact</p>
+                <p class="mt-2 text-sm font-semibold text-ink">{profile.contactPhone}</p>
+              </div>
             </div>
-            <div class="rounded-2xl border border-line bg-card p-5">
-              <p class="text-xs uppercase tracking-[0.26em] text-muted">Core Strength</p>
-              <p class="mt-3 text-lg font-semibold">Audit Documentation</p>
+          </div>
+          <div class="space-y-6">
+            <div class="rounded-2xl border border-line bg-card p-6">
+              <p class="text-xs uppercase tracking-[0.26em] text-muted">Languages</p>
+              <div class="mt-4 flex flex-wrap gap-2">
+                {profile.languages.map((lang) => (
+                  <span
+                    class="rounded-full border border-line bg-[var(--paper)] px-4 py-2 text-xs font-semibold uppercase tracking-[0.16em] text-muted"
+                    key={lang}
+                  >
+                    {lang}
+                  </span>
+                ))}
+              </div>
+            </div>
+            <div class="rounded-2xl border border-line bg-card p-6">
+              <p class="text-xs uppercase tracking-[0.26em] text-muted">Core Interests</p>
+              <div class="mt-4 flex flex-wrap gap-2">
+                {profile.interests.map((interest) => (
+                  <span
+                    class="rounded-full border border-line bg-[var(--paper)] px-4 py-2 text-xs font-semibold uppercase tracking-[0.16em] text-muted"
+                    key={interest}
+                  >
+                    {interest}
+                  </span>
+                ))}
+              </div>
             </div>
           </div>
         </div>
       </section>
 
-      <section id="about" class="mt-16 grid gap-6 lg:grid-cols-[1.1fr_0.9fr]">
-        <div class="rounded-3xl border border-line bg-card p-8 shadow-soft">
-          <h2 class="text-3xl font-semibold">Profile Summary</h2>
-          <p class="mt-4 text-base text-muted">{profile.summary}</p>
-          <div class="mt-6 grid gap-4 sm:grid-cols-2">
-            <div class="rounded-2xl border border-line p-5">
-              <p class="text-xs uppercase tracking-[0.26em] text-muted">Location</p>
-              <p class="mt-2 text-lg font-semibold">{profile.location}</p>
-            </div>
-            <div class="rounded-2xl border border-line p-5">
-              <p class="text-xs uppercase tracking-[0.26em] text-muted">Contact</p>
-              <p class="mt-2 text-lg font-semibold">{profile.contactPhone}</p>
-            </div>
-          </div>
-        </div>
-
-        <div class="space-y-4">
-          <div class="rounded-3xl border border-line bg-card p-6">
-            <p class="text-xs uppercase tracking-[0.26em] text-muted">Languages</p>
-            <h3 class="mt-2 text-2xl font-semibold">Communication</h3>
-            <div class="mt-4 flex flex-wrap gap-2">
-              {profile.languages.map((lang) => (
-                <span
-                  class="rounded-full border border-line bg-[var(--paper)] px-4 py-2 text-xs font-semibold uppercase tracking-[0.16em] text-muted"
-                  key={lang}
-                >
-                  {lang}
-                </span>
-              ))}
-            </div>
-          </div>
-          <div class="rounded-3xl border border-line bg-card p-6">
-            <p class="text-xs uppercase tracking-[0.26em] text-muted">Certifications</p>
-            <h3 class="mt-2 text-2xl font-semibold">Courses & Workshops</h3>
-            <div class="mt-4 grid gap-3">
-              {profile.certifications.map((item) => (
-                <div class="rounded-2xl border border-line px-4 py-3 text-sm text-muted" key={item}>
-                  {item}
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section id="skills" class="mt-16">
-        <div class="rounded-3xl border border-line bg-card p-8 shadow-soft">
-          <div class="flex flex-wrap items-start justify-between gap-4">
-            <div>
-              <p class="text-xs uppercase tracking-[0.26em] text-muted">Skills</p>
-              <h2 class="mt-2 text-3xl font-semibold">Core Competencies</h2>
-              <p class="mt-3 max-w-2xl text-sm text-muted">
-                Practical knowledge aligned with audit, compliance, and taxation workstreams.
-              </p>
-            </div>
-            <div class="flex flex-wrap gap-2">
-              {profile.interests.map((interest) => (
-                <span
-                  class="rounded-full border border-line bg-[var(--paper)] px-4 py-2 text-xs font-semibold uppercase tracking-[0.16em] text-muted"
-                  key={interest}
-                >
-                  {interest}
-                </span>
-              ))}
-            </div>
-          </div>
-          <div class="mt-6 grid gap-4 md:grid-cols-2">
-            {profile.strengths.map((strength) => (
-              <div class="rounded-2xl border border-line px-5 py-4" key={strength}>
-                <p class="text-sm font-semibold text-ink">{strength}</p>
+      <section id="skills" class="mt-20 border-t border-line pt-12">
+        <div>
+          <p class="text-xs uppercase tracking-[0.32em] text-muted">Skills</p>
+          <h2 class="mt-3 text-3xl font-semibold">Core Competencies & Articleship Strengths</h2>
+          <p class="mt-4 max-w-3xl text-sm text-muted">
+            A comprehensive mix of technical accounting, audit support, taxation compliance, and documentation discipline
+            expected in CA articleship roles.
+          </p>
+          <div class="mt-8 grid gap-8 md:grid-cols-2">
+            {skillGroups.map((group) => (
+              <div class="border-l border-line pl-6" key={group.title}>
+                <h3 class="text-lg font-semibold text-ink">{group.title}</h3>
+                <ul class="mt-4 space-y-3 text-sm text-muted">
+                  {group.items.map((item) => (
+                    <li class="flex items-start gap-3" key={item}>
+                      <span class="mt-1.5 h-1.5 w-1.5 rounded-full bg-[var(--accent)]"></span>
+                      <span>{item}</span>
+                    </li>
+                  ))}
+                </ul>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      <section id="education" class="mt-16 grid gap-6 lg:grid-cols-[0.9fr_1.1fr]">
-        <div class="rounded-3xl border border-line bg-card p-8">
-          <p class="text-xs uppercase tracking-[0.26em] text-muted">Education</p>
-          <h2 class="mt-2 text-3xl font-semibold">Academic Background</h2>
+      <section id="education" class="mt-20 border-t border-line pt-12">
+        <div class="relative">
+          <p class="text-xs uppercase tracking-[0.32em] text-muted">Education</p>
+          <h2 class="mt-3 text-3xl font-semibold">Academic Background</h2>
           <p class="mt-4 text-sm text-muted">
             Structured academic foundation with a focus on accounting, tax, audit, and corporate law.
           </p>
-          <div class="mt-6 space-y-3 text-sm text-muted">
-            <p>Prepared detailed study schedules for CA Inter with regular revision cycles.</p>
-            <p>Maintained structured notes and summaries for quick recall during assessments.</p>
-            <p>Developed a habit of accuracy checks and cross-verification in practical work.</p>
-          </div>
-        </div>
-
-        <div class="grid gap-4">
-          {profile.education.map((item) => (
-            <div class="rounded-3xl border border-line bg-card p-6" key={item.title}>
-              <p class="text-xs uppercase tracking-[0.26em] text-muted">Qualification</p>
-              <h3 class="mt-2 text-2xl font-semibold">{item.title}</h3>
-              <p class="mt-1 text-sm text-muted">{item.subtitle}</p>
-              <p class="mt-3 text-sm text-muted">{item.detail}</p>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      <section id="experience" class="mt-16 grid gap-6 lg:grid-cols-[0.9fr_1.1fr]">
-        <div class="rounded-3xl border border-line bg-card p-8">
-          <p class="text-xs uppercase tracking-[0.26em] text-muted">CA Toolkit</p>
-          <h2 class="mt-2 text-3xl font-semibold">General Articleship Strengths</h2>
-          <p class="mt-4 text-sm text-muted">
-            Comfortable with foundational compliance work and clear documentation standards expected in firms.
-          </p>
-          <div class="mt-6 grid gap-3">
-            {profile.generalSkills.map((item) => (
-              <div class="rounded-2xl border border-line px-4 py-3 text-sm text-muted" key={item}>
-                {item}
+          <div class="mt-10 space-y-8">
+            {profile.education.map((item) => (
+              <div class="relative grid gap-6 md:grid-cols-[auto_1fr]" key={item.title}>
+                <div class="relative flex items-center justify-center md:pt-1">
+                  <span class="absolute left-1/2 top-0 h-full w-px -translate-x-1/2 bg-[var(--line)]"></span>
+                  <span class="relative z-10 h-3 w-3 rounded-full border-2 border-[var(--accent)] bg-[var(--paper)]"></span>
+                </div>
+                <div class="relative rounded-2xl border border-line bg-card p-6 shadow-soft">
+                  <span class="absolute -left-2 top-6 h-3 w-3 rotate-45 border-l border-t border-line bg-card"></span>
+                  <p class="text-xs uppercase tracking-[0.26em] text-muted">Qualification</p>
+                  <h3 class="mt-2 text-xl font-semibold text-ink">{item.title}</h3>
+                  <p class="mt-1 text-sm text-muted">{item.subtitle}</p>
+                  <p class="mt-3 text-sm text-muted">{item.detail}</p>
+                </div>
               </div>
             ))}
           </div>
         </div>
+      </section>
 
-        <div class="grid gap-4">
-          <div class="rounded-3xl border border-line bg-card p-6">
-            <p class="text-xs uppercase tracking-[0.26em] text-muted">Current Focus</p>
-            <h3 class="mt-2 text-2xl font-semibold">Technical Refinement</h3>
-            <p class="mt-3 text-sm text-muted">
-              Practicing GST return filings, audit checklists, and Excel reconciliations to ensure accuracy and efficiency.
-            </p>
-          </div>
-          <div class="rounded-3xl border border-line bg-card p-6">
-            <p class="text-xs uppercase tracking-[0.26em] text-muted">Work Ethic</p>
-            <h3 class="mt-2 text-2xl font-semibold">Reliable, Detail-Driven</h3>
-            <p class="mt-3 text-sm text-muted">
-              Comfortable with structured tasks, thorough documentation, and meeting review standards consistently.
-            </p>
-          </div>
-          <div class="rounded-3xl border border-line bg-card p-6">
-            <p class="text-xs uppercase tracking-[0.26em] text-muted">Learning Style</p>
-            <h3 class="mt-2 text-2xl font-semibold">Curious and Coachable</h3>
-            <p class="mt-3 text-sm text-muted">
-              Seeking regular feedback to improve technical depth and client communication.
-            </p>
+      <section id="certifications" class="mt-20 border-t border-line pt-12">
+        <div>
+          <p class="text-xs uppercase tracking-[0.32em] text-muted">Courses</p>
+          <h2 class="mt-3 text-3xl font-semibold">Certifications</h2>
+          <p class="mt-4 text-sm text-muted">
+            Focused courses that support audit readiness, compliance, and client communication.
+          </p>
+          <div class="mt-8 grid gap-4 sm:grid-cols-2">
+            {profile.certifications.map((item) => (
+              <a
+                href={item.url}
+                class="group border border-line bg-card p-5 transition hover:border-[var(--accent)]"
+                key={item.name}
+              >
+                <div class="flex items-start justify-between gap-4">
+                  <div>
+                    <p class="text-xs uppercase tracking-[0.26em] text-muted">Certificate</p>
+                    <h3 class="mt-2 text-base font-semibold text-ink">{item.name}</h3>
+                  </div>
+                  <span class="text-xs uppercase tracking-[0.26em] text-muted">{item.date}</span>
+                </div>
+                <div class="mt-4 flex items-center gap-2 text-xs uppercase tracking-[0.24em] text-muted">
+                  View Certificate
+                  <span class="transition group-hover:translate-x-1">→</span>
+                </div>
+              </a>
+            ))}
           </div>
         </div>
       </section>
 
-      <section id="contact" class="mt-16">
-        <div class="rounded-3xl border border-line bg-[var(--steel)] px-8 py-10 text-white shadow-soft">
+      <section id="contact" class="mt-20 border-t border-line pt-12">
+        <div class="rounded-3xl border border-line bg-[var(--steel)] px-10 py-12 text-white shadow-soft">
           <div class="flex flex-wrap items-center justify-between gap-6">
             <div>
               <p class="text-xs uppercase tracking-[0.26em] text-white/70">Contact</p>
-              <h2 class="mt-2 text-3xl font-semibold">Open to Articleship Discussions</h2>
+              <h2 class="mt-3 text-3xl font-semibold">Open to Articleship Discussions</h2>
               <p class="mt-3 max-w-2xl text-sm text-white/70">
                 Available for interviews and ready to contribute to audit, taxation, and compliance engagements.
               </p>
@@ -315,13 +320,13 @@ const jsonLd = {
             <div class="flex flex-col gap-3">
               <a
                 href={`mailto:${profile.contactEmail}`}
-                class="rounded-full bg-white px-6 py-3 text-sm font-semibold uppercase tracking-[0.18em] text-[var(--steel)]"
+                class="rounded-full bg-white px-6 py-3 text-xs font-semibold uppercase tracking-[0.22em] text-[var(--steel)]"
               >
                 {profile.contactEmail}
               </a>
               <a
                 href={profile.resumeUrl}
-                class="rounded-full border border-white/40 px-6 py-3 text-center text-sm font-semibold uppercase tracking-[0.18em] text-white"
+                class="rounded-full border border-white/40 px-6 py-3 text-center text-xs font-semibold uppercase tracking-[0.22em] text-white"
                 download
               >
                 Download Resume
@@ -332,7 +337,7 @@ const jsonLd = {
       </section>
     </main>
 
-    <footer class="mx-auto w-full max-w-6xl px-6 pb-10 pt-6 text-xs uppercase tracking-[0.24em] text-muted">
+    <footer class="mx-auto w-full max-w-5xl px-6 pb-12 pt-8 text-xs uppercase tracking-[0.24em] text-muted">
       <div class="flex flex-wrap items-center justify-between gap-4 border-t border-line pt-6">
         <span>CA Articleship Portfolio</span>
         <span>Updated March 2026</span>
