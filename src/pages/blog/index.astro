@@ -1,6 +1,7 @@
 ---
 import Layout from "../../layouts/Layout.astro";
 import "../../styles/global.css";
+import { profile } from "../../data/profile";
 
 const modules = import.meta.glob("/src/content/blog/*.md", { eager: true });
 const posts = Object.values(modules)
@@ -15,21 +16,21 @@ const posts = Object.values(modules)
   .sort((a, b) => new Date(b.data.date).valueOf() - new Date(a.data.date).valueOf());
 
 const seo = {
-  title: "Blog | CA Articleship Portfolio",
-  description: "Thoughts, opinions, interpretations, and notes from my CA journey."
+  title: profile.content.seo.blogTitle,
+  description: profile.content.seo.blogDescription
 };
 ---
 
 <Layout title={seo.title} description={seo.description}>
   <header class="sticky top-0 z-50 border-b-[2.5px] border-[var(--line)] bg-[rgba(255,255,255,0.92)] backdrop-blur-xl">
     <div class="mx-auto flex w-full max-w-5xl items-center justify-between px-6 py-6">
-      <a href="/" class="text-sm uppercase tracking-[0.36em] text-muted">Articleship Portfolio</a>
+      <a href="/" class="text-sm uppercase tracking-[0.36em] text-muted">{profile.content.site.brand}</a>
       <nav class="hidden items-center gap-7 text-base text-muted md:flex">
-        <a href="/" class="hover:text-ink">Home</a>
-        <a href="/#about" class="hover:text-ink">About</a>
-        <a href="/#skills" class="hover:text-ink">Skills</a>
-        <a href="/#education" class="hover:text-ink">Education</a>
-        <a href="/#contact" class="hover:text-ink">Contact</a>
+        <a href="/" class="hover:text-ink">{profile.content.site.nav.home}</a>
+        <a href="/#about" class="hover:text-ink">{profile.content.site.nav.about}</a>
+        <a href="/#skills" class="hover:text-ink">{profile.content.site.nav.skills}</a>
+        <a href="/#education" class="hover:text-ink">{profile.content.site.nav.education}</a>
+        <a href="/#contact" class="hover:text-ink">{profile.content.site.nav.contact}</a>
       </nav>
     </div>
   </header>
@@ -59,20 +60,33 @@ const seo = {
     <main class="mx-auto w-full max-w-5xl px-6 pb-20 pt-12 min-h-screen">
     <div class="flex flex-wrap items-end justify-between gap-6">
       <div>
-        <p class="text-xs uppercase tracking-[0.32em] text-muted">Reflections</p>
-        <h1 class="mt-3 text-4xl font-semibold">Thoughts, Opinions & Notes</h1>
+        <p class="text-xs uppercase tracking-[0.32em] text-muted">{profile.content.blog.label}</p>
+        <h1 class="mt-3 text-4xl font-semibold">{profile.content.blog.title}</h1>
         <p class="mt-3 max-w-2xl text-sm text-muted">
-          Reflections, interpretations, and practical notes from my CA journey.
+          {profile.content.blog.intro}
         </p>
+      </div>
+      <div class="flex items-center gap-3 text-xs uppercase tracking-[0.22em] text-muted">
+        <label for="sort-posts">Sort</label>
+        <select
+          id="sort-posts"
+          class="rounded-full border border-line bg-[var(--paper)] px-4 py-2 text-xs font-semibold uppercase tracking-[0.22em] text-ink"
+        >
+          <option value="newest" selected>Latest</option>
+          <option value="oldest">Oldest</option>
+          <option value="title-asc">Title A–Z</option>
+          <option value="title-desc">Title Z–A</option>
+        </select>
       </div>
     </div>
 
       <div class="mt-10 grid gap-6" id="blog-list" data-total={posts.length}>
-        {posts.map((post, index) => (
+        {posts.map((post) => (
           <article
             class="rounded-2xl border border-line bg-card p-7 shadow-soft"
             key={post.slug}
-            data-index={index + 1}
+            data-date={post.data.date}
+            data-title={post.data.title}
           >
             <div class="flex flex-wrap items-center justify-between gap-4">
               <p class="text-xs uppercase tracking-[0.26em] text-muted">{post.data.tag}</p>
@@ -99,17 +113,57 @@ const seo = {
   </div>
 </Layout>
 
-<script>
+<script define:vars={{ paginationLabels: profile.content.blog.pagination }}>
   const pageSize = 10;
   const params = new URLSearchParams(window.location.search);
   const start = Math.max(1, Number(params.get("start") || "1"));
   const end = Math.max(start, Number(params.get("end") || String(start + pageSize - 1)));
 
   const list = document.getElementById("blog-list");
-  const items = Array.from(list?.querySelectorAll("article[data-index]") || []);
+  const items = Array.from(list?.querySelectorAll("article[data-date]") || []);
   const total = Number(list?.dataset.total || items.length);
+  const sortSelect = document.getElementById("sort-posts");
 
-  items.forEach((item) => {
+  const getDateValue = (item) => {
+    const raw = item.getAttribute("data-date") || "";
+    return new Date(raw).valueOf();
+  };
+
+  const getTitleValue = (item) => {
+    return (item.getAttribute("data-title") || "").toLowerCase();
+  };
+
+  const sortItems = (mode) => {
+    const sorted = [...items];
+    switch (mode) {
+      case "oldest":
+        sorted.sort((a, b) => getDateValue(a) - getDateValue(b));
+        break;
+      case "title-asc":
+        sorted.sort((a, b) => getTitleValue(a).localeCompare(getTitleValue(b)));
+        break;
+      case "title-desc":
+        sorted.sort((a, b) => getTitleValue(b).localeCompare(getTitleValue(a)));
+        break;
+      case "newest":
+      default:
+        sorted.sort((a, b) => getDateValue(b) - getDateValue(a));
+        break;
+    }
+    return sorted;
+  };
+
+  const applyOrder = (sorted) => {
+    sorted.forEach((item, index) => {
+      item.setAttribute("data-index", String(index + 1));
+      list?.appendChild(item);
+    });
+  };
+
+  const sortedItems = sortItems(sortSelect?.value || "newest");
+  applyOrder(sortedItems);
+
+  sortedItems.forEach((item) => {
     const index = Number(item.getAttribute("data-index"));
     item.style.display = index >= start && index <= end ? "" : "none";
   });
@@ -126,11 +180,11 @@ const seo = {
   if (prevLink) {
     if (start > 1) {
       prevLink.href = `/blog?start=${prevStart}&end=${prevEnd}`;
-      prevLink.textContent = "Previous";
+      prevLink.textContent = paginationLabels.prev;
       prevLink.classList.remove("pointer-events-none", "opacity-40");
     } else {
       prevLink.href = "#";
-      prevLink.textContent = "Previous";
+      prevLink.textContent = paginationLabels.prev;
       prevLink.classList.add("pointer-events-none", "opacity-40");
     }
   }
@@ -138,16 +192,30 @@ const seo = {
   if (nextLink) {
     if (end < total) {
       nextLink.href = `/blog?start=${nextStart}&end=${nextEnd}`;
-      nextLink.textContent = "Next";
+      nextLink.textContent = paginationLabels.next;
       nextLink.classList.remove("pointer-events-none", "opacity-40");
     } else {
       nextLink.href = "#";
-      nextLink.textContent = "Next";
+      nextLink.textContent = paginationLabels.next;
       nextLink.classList.add("pointer-events-none", "opacity-40");
     }
   }
 
   if (range) {
-    range.textContent = `Showing ${start}-${Math.min(end, total)} of ${total}`;
+    range.textContent = paginationLabels.range
+      .replace("{start}", String(start))
+      .replace("{end}", String(Math.min(end, total)))
+      .replace("{total}", String(total));
+  }
+
+  if (sortSelect) {
+    sortSelect.addEventListener("change", () => {
+      const ordered = sortItems(sortSelect.value);
+      applyOrder(ordered);
+      ordered.forEach((item) => {
+        const index = Number(item.getAttribute("data-index"));
+        item.style.display = index >= start && index <= end ? "" : "none";
+      });
+    });
   }
 </script>

@@ -1,6 +1,7 @@
 ---
 import Layout from "../../layouts/Layout.astro";
 import "../../styles/global.css";
+import { profile } from "../../data/profile";
 
 export async function getStaticPaths() {
   const modules = import.meta.glob("/src/content/blog/*.md", { eager: true });
@@ -20,7 +21,7 @@ if (!postModule) {
 const { Content, frontmatter } = postModule;
 
 const seo = {
-  title: `${frontmatter.title} | Blog | CA Articleship Portfolio`,
+  title: `${frontmatter.title} | ${profile.content.seo.postTitleSuffix}`,
   description: frontmatter.summary
 };
 ---
@@ -28,10 +29,10 @@ const seo = {
 <Layout title={seo.title} description={seo.description}>
   <header class="sticky top-0 z-50 border-b-[2.5px] border-[var(--line)] bg-[rgba(255,255,255,0.92)] backdrop-blur-xl">
     <div class="mx-auto flex w-full max-w-5xl items-center justify-between px-6 py-6">
-      <a href="/" class="text-sm uppercase tracking-[0.36em] text-muted">Articleship Portfolio</a>
+      <a href="/" class="text-sm uppercase tracking-[0.36em] text-muted">{profile.content.site.brand}</a>
       <nav class="hidden items-center gap-7 text-base text-muted md:flex">
-        <a href="/" class="hover:text-ink">Home</a>
-        <a href="/blog" class="hover:text-ink">Blog</a>
+        <a href="/" class="hover:text-ink">{profile.content.site.nav.home}</a>
+        <a href="/blog" class="hover:text-ink">{profile.content.site.nav.blog}</a>
       </nav>
     </div>
   </header>
@@ -63,7 +64,7 @@ const seo = {
         href="/blog"
         class="text-xs uppercase tracking-[0.26em] text-muted hover:text-ink"
       >
-        ← Back to Blogs
+        ← {profile.content.blog.backLabel}
       </a>
 
       <header class="mt-6 border-b border-line pb-6">

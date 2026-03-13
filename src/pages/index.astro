@@ -1,100 +1,36 @@
 ---
 import Layout from "../layouts/Layout.astro";
-import "../styles/global.css"
-const profile = {
-  name: "Your Name",
-  title: "CA Inter Qualified | Articleship Candidate",
-  location: "City, State",
-  contactEmail: "youremail@example.com",
-  contactPhone: "+91 90000 00000",
-  linkedIn: "https://www.linkedin.com/in/your-handle",
-  resumeUrl: "/resume.pdf",
-  summary:
-    "Recently cleared CA Intermediate. Looking for a structured articleship where I can apply strong fundamentals in Accounting, Taxation, Audit, and Corporate Law while learning from high-standards practice.",
-  availability: "Immediate",
-  interests: ["Statutory Audit", "Tax Compliance", "Internal Audit", "GST", "ROC Filings"],
-  strengths: [
-    "Financial reporting and finalization",
-    "GST computation and returns",
-    "Audit documentation and vouching",
-    "Company law basics and ROC",
-    "Excel-based reconciliation"
-  ],
-  education: [
-    {
-      title: "CA Intermediate",
-      subtitle: "Cleared in 2024 (Group I & II)",
-      detail: "Strong performance in Accounting, Taxation, and Auditing."
-    },
-    {
-      title: "B.Com (Commerce)",
-      subtitle: "University Name, 2023",
-      detail: "Focused on Financial Accounting, Costing, and Business Law."
-    }
-  ],
-  certifications: [
-    {
-      name: "MS Excel for Finance (Advanced)",
-      date: "Jan 2024",
-      url: "/certificates/excel-finance"
-    },
-    {
-      name: "GST Practitioner Workshop",
-      date: "Aug 2023",
-      url: "/certificates/gst-workshop"
-    },
-    {
-      name: "Tally Prime Fundamentals",
-      date: "Jun 2023",
-      url: "/certificates/tally-prime"
-    },
-    {
-      name: "Communication Skills for Client Work",
-      date: "Nov 2022",
-      url: "/certificates/communication-skills"
-    }
-  ],
-  languages: ["English", "Hindi", "Marathi"],
-  generalSkills: [
-    "Accounting Standards (AS) basics",
-    "TDS/TCS computation and compliance",
-    "GST reconciliations and return preparation",
-    "ROC forms and corporate compliance awareness",
-    "Audit planning and working paper discipline"
-  ],
-  photoUrl: "/profile.jpeg"
-};
+import "../styles/global.css";
+import { profile } from "../data/profile";
 
 const seo = {
-  title: `${profile.name} | CA Articleship Portfolio`,
-  description:
-    "CA Inter qualified candidate seeking articleship. Fundamentals in accounting, audit, taxation, and corporate law."
+  title: profile.content.seo.homeTitle,
+  description: profile.content.seo.homeDescription
 };
 
 const skillGroups = [
   {
-    title: "Technical Competencies",
-    items: profile.strengths
+    title: profile.content.sections.skills.groupTitles[0],
+    items: profile.personal.strengths
   },
   {
-    title: "Articleship Readiness",
-    items: profile.generalSkills
+    title: profile.content.sections.skills.groupTitles[1],
+    items: profile.personal.generalSkills
   }
 ];
 
 const jsonLd = {
   "@context": "https://schema.org",
   "@type": "Person",
-  name: profile.name,
-  description: profile.summary,
-  jobTitle: "CA Articleship Candidate",
-  email: profile.contactEmail,
-  telephone: profile.contactPhone,
+  name: profile.personal.name,
+  description: profile.personal.summary,
+  jobTitle: profile.personal.jobTitle,
+  email: profile.personal.contactEmail,
   address: {
     "@type": "PostalAddress",
-    addressLocality: profile.location
+    addressLocality: profile.personal.location
   },
-  url: "https://example.com/"
+  url: profile.content.site.url
 };
 ---
 
@@ -108,7 +44,7 @@ const jsonLd = {
 
       <!-- Logo -->
       <a href="/" class="text-base font-semibold uppercase tracking-[0.3em] text-muted md:text-sm">
-        Articleship Portfolio
+        {profile.content.site.brand}
       </a>
 
       <!-- Mobile Button -->
@@ -123,11 +59,11 @@ const jsonLd = {
 
       <!-- Desktop Navigation -->
       <nav class="hidden items-center gap-7 text-base text-muted md:flex">
-        <a href="#about" class="hover:text-ink">About</a>
-        <a href="#skills" class="text-accent-strong hover:text-ink">Skills</a>
-        <a href="#education" class="hover:text-ink">Education</a>
-        <a href="#contact" class="hover:text-ink">Contact</a>
-        <a href="/blog" class="hover:text-ink">Blog</a>
+        <a href="#about" class="hover:text-ink">{profile.content.site.nav.about}</a>
+        <a href="#skills" class="text-accent-strong hover:text-ink">{profile.content.site.nav.skills}</a>
+        <a href="#education" class="hover:text-ink">{profile.content.site.nav.education}</a>
+        <a href="#contact" class="hover:text-ink">{profile.content.site.nav.contact}</a>
+        <a href="/blog" class="hover:text-ink">{profile.content.site.nav.blog}</a>
       </nav>
 
     </div>
@@ -135,11 +71,11 @@ const jsonLd = {
     <!-- Mobile Menu -->
     <div id="mobile-menu" class="hidden border-t border-[var(--line)] md:hidden">
       <nav class="flex flex-col gap-4 px-6 py-5 text-base text-muted">
-        <a href="#about" class="hover:text-ink">About</a>
-        <a href="#skills" class="hover:text-ink">Skills</a>
-        <a href="#education" class="hover:text-ink">Education</a>
-        <a href="#contact" class="hover:text-ink">Contact</a>
-        <a href="/blog" class="hover:text-ink">Blog</a>
+        <a href="#about" class="hover:text-ink">{profile.content.site.nav.about}</a>
+        <a href="#skills" class="hover:text-ink">{profile.content.site.nav.skills}</a>
+        <a href="#education" class="hover:text-ink">{profile.content.site.nav.education}</a>
+        <a href="#contact" class="hover:text-ink">{profile.content.site.nav.contact}</a>
+        <a href="/blog" class="hover:text-ink">{profile.content.site.nav.blog}</a>
       </nav>
     </div>
   </header>
@@ -173,8 +109,8 @@ const jsonLd = {
           <div class="flex justify-center order-1 lg:order-2">
             <div class="relative rounded-full border-[8px] border-[var(--line)]">
               <img
-                src={profile.photoUrl}
-                alt={`${profile.name} portrait`}
+                src={profile.personal.photoUrl}
+                alt={`${profile.personal.name} portrait`}
                 class="h-[200px] w-[200px] rounded-full object-cover"
                 loading="lazy"
               />
@@ -186,32 +122,31 @@ const jsonLd = {
 
             <div class="space-y-4">
               <h1 class="text-balance text-4xl font-semibold leading-tight text-ink sm:text-5xl lg:text-6xl">
-                <span class="text-accent-strong">{profile.name}</span>
+                <span class="text-accent-strong">{profile.personal.name}</span>
                 <span class="mt-3 block text-xs uppercase tracking-[0.4em] text-muted">
-                  CA Inter Qualified
+                  {profile.content.hero.badge}
                 </span>
               </h1>
 
               <p class="text-balance text-lg text-muted sm:text-xl">
-                {profile.title} based in {profile.location}. Seeking a CA articleship role focused on disciplined learning,
-                client exposure, and precise financial execution.
+                {profile.content.hero.intro}
               </p>
             </div>
 
             <div class="flex flex-wrap justify-center gap-4 lg:justify-start">
               <a
-                href={`mailto:${profile.contactEmail}`}
+                href={`mailto:${profile.personal.contactEmail}`}
                 class="w-full rounded-full bg-[var(--steel)] px-6 py-3 text-center text-xs font-semibold uppercase tracking-[0.22em] text-white transition hover:bg-[var(--accent-deep)] sm:w-auto"
               >
-                Email Me
+                {profile.content.hero.ctaEmailLabel}
               </a>
 
               <a
-                href={profile.resumeUrl}
+                href={profile.personal.resumeUrl}
                 class="w-full rounded-full border border-line px-6 py-3 text-center text-xs font-semibold uppercase tracking-[0.22em] text-ink transition hover:border-[var(--accent)] hover:text-[var(--accent)] sm:w-auto"
                 download
               >
-                Download Resume
+                {profile.content.hero.ctaResumeLabel}
               </a>
             </div>
 
@@ -222,37 +157,36 @@ const jsonLd = {
       <section id="about" class="mt-20 border-t border-line pt-12">
         <div class="grid gap-10 lg:grid-cols-[1.15fr_0.85fr]">
           <div class="order-2 lg:order-1">
-            <p class="text-xs uppercase tracking-[0.32em] text-muted">Profile</p>
-            <h2 class="mt-3 text-3xl font-semibold">Summary</h2>
-            <p class="mt-4 text-base text-muted">{profile.summary}</p>
+            <p class="text-xs uppercase tracking-[0.32em] text-muted">{profile.content.about.label}</p>
+            <h2 class="mt-3 text-3xl font-semibold">{profile.content.about.title}</h2>
+            <p class="mt-4 text-base text-muted">{profile.personal.summary}</p>
             <div class="mt-6 grid gap-4 sm:grid-cols-2">
               <div class="rounded-2xl border border-line p-4">
-                <p class="text-xs uppercase tracking-[0.26em] text-muted">Location</p>
-                <p class="mt-2 text-sm font-semibold text-ink">{profile.location}</p>
+                <p class="text-xs uppercase tracking-[0.26em] text-muted">{profile.content.about.locationLabel}</p>
+                <p class="mt-2 text-sm font-semibold text-ink">{profile.personal.location}</p>
               </div>
               <div class="rounded-2xl border border-line p-4">
-                <p class="text-xs uppercase tracking-[0.26em] text-muted">Contact</p>
-                <p class="mt-2 text-sm font-semibold text-ink">{profile.contactPhone}</p>
+                <p class="text-xs uppercase tracking-[0.26em] text-muted">{profile.content.about.contactLabel}</p>
+              <p class="mt-2 text-sm font-semibold text-ink">{profile.personal.contactEmail}</p>
               </div>
             </div>
           </div>
           <div class="rounded-3xl border border-line bg-card p-7 shadow-soft order-1 lg:order-2">
             <div>
-              <p class="text-xs uppercase tracking-[0.26em] text-muted">Availability</p>
-              <p class="mt-2 text-2xl font-semibold text-ink">{profile.availability}</p>
+              <p class="text-xs uppercase tracking-[0.26em] text-muted">{profile.content.about.availabilityLabel}</p>
+              <p class="mt-2 text-2xl font-semibold text-ink">{profile.personal.availability}</p>
               <p class="mt-2 text-sm text-muted">
-                Ready to join a firm that values structure, accountability, and clean documentation.
+                {profile.content.about.availabilityNote}
               </p>
             </div>
             <div class="border-t border-line pt-5">
-              <p class="text-xs uppercase tracking-[0.26em] text-muted">Contact</p>
-              <p class="mt-2 text-sm text-ink">{profile.contactEmail}</p>
-              <p class="text-sm text-muted">{profile.contactPhone}</p>
+              <p class="text-xs uppercase tracking-[0.26em] text-muted">{profile.content.about.contactLabel}</p>
+              <p class="mt-2 text-sm text-ink">{profile.personal.contactEmail}</p>
             </div>
             <div class="border-t border-line pt-5">
-              <p class="text-xs uppercase tracking-[0.26em] text-muted">LinkedIn</p>
-              <a href={profile.linkedIn} class="mt-2 inline-block text-sm text-ink underline">
-                View Profile
+              <p class="text-xs uppercase tracking-[0.26em] text-muted">{profile.content.about.linkedInLabel}</p>
+              <a href={profile.personal.linkedIn} class="mt-2 inline-block text-sm text-ink underline">
+                {profile.content.about.linkedInCta}
               </a>
             </div>
           </div>
@@ -261,13 +195,11 @@ const jsonLd = {
 
       <section id="education" class="mt-20 border-t border-line pt-12">
         <div class="relative">
-          <p class="text-xs uppercase tracking-[0.32em] text-muted">Education</p>
-          <h2 class="mt-3 text-3xl font-semibold">Academic Background</h2>
-          <p class="mt-4 text-sm text-muted">
-            Structured academic foundation with a focus on accounting, tax, audit, and corporate law.
-          </p>
+          <p class="text-xs uppercase tracking-[0.32em] text-muted">{profile.content.sections.education.label}</p>
+          <h2 class="mt-3 text-3xl font-semibold">{profile.content.sections.education.title}</h2>
+          <p class="mt-4 text-sm text-muted">{profile.content.sections.education.intro}</p>
           <div class="mt-10 space-y-8 md:space-y-10">
-            {profile.education.map((item) => (
+            {profile.personal.education.map((item) => (
               <div class="relative grid gap-6 md:grid-cols-[auto_1fr]" key={item.title}>
                 <div class="relative hidden items-center justify-center md:flex md:pt-1">
                   <span class="absolute left-1/2 top-0 h-full w-px -translate-x-1/2 bg-[var(--line)]"></span>
@@ -275,7 +207,7 @@ const jsonLd = {
                 </div>
                 <div class="relative rounded-2xl border border-line bg-card p-6 shadow-soft">
                   <span class="absolute left-6 top-0 h-2.5 w-2.5 -translate-y-1/2 rounded-full border-2 border-[var(--accent)] bg-[var(--paper)] md:hidden"></span>
-                  <p class="text-xs uppercase tracking-[0.26em] text-muted">Qualification</p>
+                  <p class="text-xs uppercase tracking-[0.26em] text-muted">{profile.content.sections.education.itemLabel}</p>
                   <h3 class="mt-2 text-xl font-semibold text-ink">{item.title}</h3>
                   <p class="mt-1 text-sm text-muted">{item.subtitle}</p>
                   <p class="mt-3 text-sm text-muted">{item.detail}</p>
@@ -288,12 +220,9 @@ const jsonLd = {
 
       <section id="skills" class="mt-20 border-t border-line pt-12">
         <div>
-          <p class="text-xs uppercase tracking-[0.32em] text-muted">Skills</p>
-          <h2 class="mt-3 text-3xl font-semibold">Core Competencies & Articleship Strengths</h2>
-          <p class="mt-4 max-w-3xl text-sm text-muted">
-            A comprehensive mix of technical accounting, audit support, taxation compliance, and documentation discipline
-            expected in CA articleship roles.
-          </p>
+          <p class="text-xs uppercase tracking-[0.32em] text-muted">{profile.content.sections.skills.label}</p>
+          <h2 class="mt-3 text-3xl font-semibold">{profile.content.sections.skills.title}</h2>
+          <p class="mt-4 max-w-3xl text-sm text-muted">{profile.content.sections.skills.intro}</p>
           <div class="mt-8 grid gap-8 md:grid-cols-2">
             {skillGroups.map((group) => (
               <div class="border-l border-line pl-6" key={group.title}>
@@ -314,13 +243,11 @@ const jsonLd = {
 
       <section id="certifications" class="mt-20 border-t border-line pt-12">
         <div>
-          <p class="text-xs uppercase tracking-[0.32em] text-muted">Courses</p>
-          <h2 class="mt-3 text-3xl font-semibold">Certifications</h2>
-          <p class="mt-4 text-sm text-muted">
-            Focused courses that support audit readiness, compliance, and client communication.
-          </p>
+          <p class="text-xs uppercase tracking-[0.32em] text-muted">{profile.content.sections.certifications.label}</p>
+          <h2 class="mt-3 text-3xl font-semibold">{profile.content.sections.certifications.title}</h2>
+          <p class="mt-4 text-sm text-muted">{profile.content.sections.certifications.intro}</p>
           <div class="mt-8 space-y-3">
-            {profile.certifications.map((item) => (
+            {profile.personal.certifications.map((item) => (
               <div
                 class="flex flex-col gap-2 border-b border-line/70 pb-3 text-sm text-muted sm:flex-row sm:items-center sm:justify-between"
                 key={item.name}
@@ -329,7 +256,9 @@ const jsonLd = {
                   <span class="h-1.5 w-1.5 rounded-full bg-[var(--accent)]"></span>
                   <a href={item.url} class="group font-semibold text-ink">
                     {item.name}
-                    <span class="ml-2 inline-block text-xs transition group-hover:-translate-y-0.5 group-hover:translate-x-0.5">↗</span>
+                    <span class="ml-2 inline-block text-xs transition group-hover:-translate-y-0.5 group-hover:translate-x-0.5">
+                      {profile.content.sections.certifications.linkIcon}
+                    </span>
                   </a>
                 </div>
                 <div class="pl-4 text-xs uppercase tracking-[0.26em] text-muted sm:pl-0">{item.date}</div>
@@ -341,14 +270,14 @@ const jsonLd = {
 
       <section id="details" class="mt-20 border-t border-line pt-12">
         <div>
-          <p class="text-xs uppercase tracking-[0.32em] text-muted">Additional Details</p>
-          <h2 class="mt-3 text-3xl font-semibold">Languages & Interests</h2>
+          <p class="text-xs uppercase tracking-[0.32em] text-muted">{profile.content.sections.details.label}</p>
+          <h2 class="mt-3 text-3xl font-semibold">{profile.content.sections.details.title}</h2>
         </div>
         <div class="mt-6 grid gap-6 lg:grid-cols-2">
           <div class="rounded-2xl border border-line bg-card p-6">
-            <p class="text-xs uppercase tracking-[0.26em] text-muted">Languages</p>
+            <p class="text-xs uppercase tracking-[0.26em] text-muted">{profile.content.sections.details.languagesLabel}</p>
             <div class="mt-4 flex flex-wrap gap-2">
-              {profile.languages.map((lang) => (
+              {profile.personal.languages.map((lang) => (
                 <span
                   class="rounded-full border border-line bg-[var(--paper)] px-4 py-2 text-xs font-semibold uppercase tracking-[0.16em] text-muted"
                   key={lang}
@@ -359,9 +288,9 @@ const jsonLd = {
             </div>
           </div>
           <div class="rounded-2xl border border-line bg-card p-6">
-            <p class="text-xs uppercase tracking-[0.26em] text-muted">Interests</p>
+            <p class="text-xs uppercase tracking-[0.26em] text-muted">{profile.content.sections.details.interestsLabel}</p>
             <div class="mt-4 flex flex-wrap gap-2">
-              {profile.interests.map((interest) => (
+              {profile.personal.interests.map((interest) => (
                 <span
                   class="rounded-full border border-line bg-[var(--paper)] px-4 py-2 text-xs font-semibold uppercase tracking-[0.16em] text-muted"
                   key={interest}
@@ -378,25 +307,23 @@ const jsonLd = {
         <div class="rounded-3xl border border-line bg-card p-8 shadow-soft md:p-10">
           <div class="flex flex-wrap items-center justify-between gap-6">
             <div>
-              <p class="text-xs uppercase tracking-[0.26em] text-muted">Contact</p>
-              <h2 class="mt-3 text-3xl font-semibold text-ink">Open to Articleship Discussions</h2>
-              <p class="mt-3 max-w-2xl text-sm text-muted">
-                Available for interviews and ready to contribute to audit, taxation, and compliance engagements.
-              </p>
+              <p class="text-xs uppercase tracking-[0.26em] text-muted">{profile.content.sections.contact.label}</p>
+              <h2 class="mt-3 text-3xl font-semibold text-ink">{profile.content.sections.contact.title}</h2>
+              <p class="mt-3 max-w-2xl text-sm text-muted">{profile.content.sections.contact.intro}</p>
             </div>
             <div class="flex w-full flex-col gap-3 sm:w-auto">
               <a
-                href={`mailto:${profile.contactEmail}`}
-                class="rounded-full bg-[var(--steel)] px-6 py-3 text-center text-xs font-semibold uppercase tracking-[0.22em] text-white"
+                href={`mailto:${profile.personal.contactEmail}`}
+                class="rounded-full bg-[var(--steel)] px-6 py-3 text-center text-xs font-semibold uppercase tracking-[0.22em] text-white transition hover:bg-[var(--accent-deep)] hover:shadow-[0_8px_24px_rgba(11,19,25,0.25)]"
               >
-                {profile.contactEmail}
+                {profile.personal.contactEmail}
               </a>
               <a
-                href={profile.resumeUrl}
-                class="rounded-full border border-line px-6 py-3 text-center text-xs font-semibold uppercase tracking-[0.22em] text-ink"
+                href={profile.personal.resumeUrl}
+                class="rounded-full border border-line px-6 py-3 text-center text-xs font-semibold uppercase tracking-[0.22em] text-ink transition hover:border-[var(--accent)] hover:text-[var(--accent)] hover:shadow-[0_8px_24px_rgba(255,122,0,0.18)]"
                 download
               >
-                Download Resume
+                {profile.content.hero.ctaResumeLabel}
               </a>
             </div>
           </div>
@@ -406,7 +333,7 @@ const jsonLd = {
 
     <footer class="mx-auto w-full max-w-5xl px-6 pb-12 pt-8 text-xs uppercase tracking-[0.24em] text-muted">
       <div class="flex flex-wrap items-center justify-between gap-4 border-t border-line pt-6">
-        <span>CA Articleship Portfolio</span>
+        <span>{profile.content.site.footerNote}</span>
         <!-- <span>Updated March 2026</span> -->
       </div>
     </footer>
