@@ -1,8 +1,8 @@
 export const profile = {
   personal: {
     name: "Harshal Etthar",
-    title: "CA Aspirant | B.Com | CA Intermediate",
-    jobTitle: "CA Aspirant",
+    title: "CA Finalist | B.Com | CA Intermediate",
+    jobTitle: "CA Finalist",
     location: "Swargate, Pune",
     contactEmail: "harshaletthar07@gmail.com",
     linkedIn: "https://www.linkedin.com/in/your-handle",
@@ -74,7 +74,7 @@ export const profile = {
     site: {
       brand: "Harshal Etthar",
       url: "https://harshaletthar.pages.dev",
-      footerNote: "Harshal Etthar | CA Aspirant",
+      footerNote: "Harshal Etthar | CA Finalist",
       nav: {
         home: "Home",
         about: "About",
@@ -85,18 +85,18 @@ export const profile = {
       },
     },
     seo: {
-      homeTitle: "Harshal Etthar | CA Aspirant",
+      homeTitle: "Harshal Etthar | CA Finalist",
       homeDescription:
-        "CA aspirant seeking articleship. Strong fundamentals in accounting, audit, and taxation with a focus on disciplined learning and practical exposure.",
+        "CA Finalist seeking articleship. Strong fundamentals in accounting, audit, and taxation with a focus on disciplined learning and practical exposure.",
       blogTitle: "Blog | Harshal Etthar",
       blogDescription:
         "Thoughts, opinions, interpretations, and notes from my CA journey.",
-      postTitleSuffix: "Blog | CA Aspirant",
+      postTitleSuffix: "Blog | CA Finalist",
     },
     hero: {
-      badge: "CA Aspirant",
+      badge: "CA Finalist",
       intro:
-        "CA aspirant based in Swargate, Pune. Seeking a CA articleship role focused on disciplined learning, client exposure, and precise financial execution.",
+        "CA Finalist based in Swargate, Pune. Seeking a CA articleship role focused on disciplined learning, client exposure, and precise financial execution.",
       ctaEmailLabel: "Email Me",
       ctaResumeLabel: "Download Resume",
     },
