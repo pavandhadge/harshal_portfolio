@@ -23,14 +23,42 @@ const seo = {
 
 <Layout title={seo.title} description={seo.description}>
   <header class="sticky top-0 z-50 border-b-[2.5px] border-[var(--line)] bg-[rgba(255,255,255,0.92)] backdrop-blur-xl">
-    <div class="mx-auto flex w-full max-w-5xl items-center justify-between px-6 py-6">
-      <a href="/" class="text-sm uppercase tracking-[0.36em] text-muted">{profile.content.site.brand}</a>
+    <div class="mx-auto flex w-full max-w-5xl items-center justify-between px-6 py-4">
+
+      <!-- Logo -->
+      <a href="/" class="text-base font-semibold uppercase tracking-[0.3em] text-muted md:text-sm">
+        {profile.content.site.brand}
+      </a>
+
+      <!-- Mobile Button -->
+      <button
+        type="button"
+        onclick="document.getElementById('mobile-menu').classList.toggle('hidden')"
+        class="flex h-10 w-10 items-center justify-center text-2xl text-muted md:hidden"
+        aria-label="Open navigation"
+      >
+        ☰
+      </button>
+
+      <!-- Desktop Navigation -->
       <nav class="hidden items-center gap-7 text-base text-muted md:flex">
-        <a href="/" class="hover:text-ink">{profile.content.site.nav.home}</a>
+        <a href="/#about" class="hover:text-ink">{profile.content.site.nav.about}</a>
+        <a href="/#skills" class="text-accent-strong hover:text-ink">{profile.content.site.nav.skills}</a>
+        <a href="/#education" class="hover:text-ink">{profile.content.site.nav.education}</a>
+        <a href="/#contact" class="hover:text-ink">{profile.content.site.nav.contact}</a>
+        <a href="/blog" class="hover:text-ink">{profile.content.site.nav.blog}</a>
+      </nav>
+
+    </div>
+
+    <!-- Mobile Menu -->
+    <div id="mobile-menu" class="hidden border-t border-[var(--line)] md:hidden">
+      <nav class="flex flex-col gap-4 px-6 py-5 text-base text-muted">
         <a href="/#about" class="hover:text-ink">{profile.content.site.nav.about}</a>
         <a href="/#skills" class="hover:text-ink">{profile.content.site.nav.skills}</a>
         <a href="/#education" class="hover:text-ink">{profile.content.site.nav.education}</a>
         <a href="/#contact" class="hover:text-ink">{profile.content.site.nav.contact}</a>
+        <a href="/blog" class="hover:text-ink">{profile.content.site.nav.blog}</a>
       </nav>
     </div>
   </header>
@@ -86,6 +114,7 @@ const seo = {
             class="rounded-2xl border border-line bg-card p-7 shadow-soft"
             key={post.slug}
             data-date={post.data.date}
+            data-date-ts={new Date(post.data.date).valueOf()}
             data-title={post.data.title}
           >
             <div class="flex flex-wrap items-center justify-between gap-4">
@@ -120,13 +149,15 @@ const seo = {
   const end = Math.max(start, Number(params.get("end") || String(start + pageSize - 1)));
 
   const list = document.getElementById("blog-list");
-  const items = Array.from(list?.querySelectorAll("article[data-date]") || []);
-  const total = Number(list?.dataset.total || items.length);
+  const items = Array.from(list?.querySelectorAll("article[data-date-ts]") || []);
+  if (!list || items.length === 0) {
+    return;
+  }
+  const total = items.length;
   const sortSelect = document.getElementById("sort-posts");
 
   const getDateValue = (item) => {
-    const raw = item.getAttribute("data-date") || "";
-    return new Date(raw).valueOf();
+    return Number(item.getAttribute("data-date-ts") || "0");
   };
 
   const getTitleValue = (item) => {
@@ -163,10 +194,14 @@ const seo = {
   const sortedItems = sortItems(sortSelect?.value || "newest");
   applyOrder(sortedItems);
 
-  sortedItems.forEach((item) => {
-    const index = Number(item.getAttribute("data-index"));
-    item.style.display = index >= start && index <= end ? "" : "none";
-  });
+  const applyVisibility = (orderedItems) => {
+    orderedItems.forEach((item) => {
+      const index = Number(item.getAttribute("data-index"));
+      item.style.display = index >= start && index <= end ? "" : "none";
+    });
+  };
+
+  applyVisibility(sortedItems);
 
   const prevStart = Math.max(1, start - pageSize);
   const prevEnd = prevStart + pageSize - 1;
@@ -212,10 +247,7 @@ const seo = {
     sortSelect.addEventListener("change", () => {
       const ordered = sortItems(sortSelect.value);
       applyOrder(ordered);
-      ordered.forEach((item) => {
-        const index = Number(item.getAttribute("data-index"));
-        item.style.display = index >= start && index <= end ? "" : "none";
-      });
+      applyVisibility(ordered);
     });
   }
 </script>

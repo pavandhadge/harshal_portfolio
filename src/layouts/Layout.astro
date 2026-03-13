@@ -1,5 +1,6 @@
 ---
 import "../styles/global.css";
+import { ClientRouter } from "astro:transitions";
 
 const {
   title = "CA Articleship Portfolio | Your Name",
@@ -35,12 +36,63 @@ const resolvedCanonical = canonical ?? Astro.url?.href;
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
 
+    <ClientRouter />
+
+    <script is:inline>
+      try {
+        const hasSession = sessionStorage.getItem("siteSession");
+        const shouldShow = !hasSession;
+        document.documentElement.dataset.showLoader = shouldShow ? "true" : "false";
+        sessionStorage.setItem("siteSession", "true");
+      } catch (e) {
+        document.documentElement.dataset.showLoader = "true";
+      }
+    </script>
+
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 
     <slot name="head" />
   </head>
   <body class="bg-paper text-ink">
+    <div id="site-loader" class="site-loader" aria-hidden="true">
+      <div class="site-loader__inner">
+        <span class="site-loader__mark">HE</span>
+        <span class="site-loader__name">Harshal Etthar</span>
+        <span class="site-loader__role">CA Aspirant</span>
+      </div>
+    </div>
     <slot />
+    <script>
+      const loader = document.getElementById("site-loader");
+      if (loader) {
+        const shouldShow =
+          document.documentElement.dataset.showLoader === "true";
+        if (!shouldShow) {
+          loader.remove();
+        } else {
+          const minDuration = 400;
+          const maxDuration = 1500;
+          const startedAt = Date.now();
+          let hidden = false;
+          const hideLoader = () => {
+            if (hidden) return;
+            hidden = true;
+            const elapsed = Date.now() - startedAt;
+            const remaining = Math.max(0, minDuration - elapsed);
+            setTimeout(() => {
+              loader.classList.add("site-loader--hide");
+              setTimeout(() => loader.remove(), 650);
+            }, remaining);
+          };
+          if (document.readyState === "interactive" || document.readyState === "complete") {
+            hideLoader();
+          } else {
+            document.addEventListener("DOMContentLoaded", hideLoader, { once: true });
+          }
+          setTimeout(hideLoader, maxDuration);
+        }
+      }
+    </script>
   </body>
 </html>

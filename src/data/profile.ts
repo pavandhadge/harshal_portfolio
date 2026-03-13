@@ -68,7 +68,7 @@ export const profile = {
       fatherName: "Kailash Kakasaheb Etthar",
       dateOfBirth: "03 March 2003",
     },
-    photoUrl: "/profile.jpeg",
+    photoUrl: "/profile.jpg",
   },
   content: {
     site: {
