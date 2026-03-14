@@ -2,6 +2,7 @@
 import { defineConfig } from "astro/config";
 
 import tailwindcss from "@tailwindcss/vite";
+import compress from "vite-plugin-compression";
 
 // https://astro.build/config
 export default defineConfig({
@@ -13,14 +14,30 @@ export default defineConfig({
   //   host: true
   // },
   vite: {
-    plugins: [tailwindcss()],
+    plugins: [
+      tailwindcss(),
+      compress({
+        algorithm: "brotliCompress",
+        deleteOriginFile: false,
+      }),
+      compress({
+        algorithm: "gzip",
+        deleteOriginFile: false,
+        ext: ".gz",
+      }),
+    ],
     server: {
       host: true,
       allowedHosts: true,
     },
     build: {
-      minify: "esbuild",
+      minify: "terser",
       cssMinify: "esbuild",
+      terserOptions: {
+        compress: {
+          drop_console: true,
+        },
+      },
       rollupOptions: {
         treeshake: true,
       },

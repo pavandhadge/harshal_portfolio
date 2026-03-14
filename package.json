@@ -15,5 +15,9 @@
     "@tailwindcss/vite": "^4.2.1",
     "astro": "^6.0.3",
     "tailwindcss": "^4.2.1"
+  },
+  "devDependencies": {
+    "terser": "^5.46.0",
+    "vite-plugin-compression": "^0.5.1"
   }
 }
